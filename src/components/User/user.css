@@ -28,4 +28,15 @@ select{
     margin-bottom: 10px;
     border-radius: 10px;
     width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.details{
+    display: flex;
+    flex-direction: column;
+}
+.details span{
+    margin: 5px 0;
 }
