@@ -5,7 +5,7 @@ import { getAuth } from 'firebase/auth'
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid"
 
-function AddCompanyModal({ closeModal }) {
+function EditCompanyModal({ closeModal }) {
     const [companyName, setCompanyName] = useState("")
     const [since, setSince] = useState("")
     const [timings, setTimings] = useState("")
@@ -70,4 +70,4 @@ function AddCompanyModal({ closeModal }) {
     );
 }
 
-export default AddCompanyModal;
+export default EditCompanyModal;
