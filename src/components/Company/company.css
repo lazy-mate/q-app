@@ -1,4 +1,4 @@
-.main {
+.main{
     height: 100vh;
     width: 100%;
     display: flex;
@@ -6,8 +6,7 @@
     align-items: center;
     justify-content: center;
 }
-
-.home-btn {
+.home-btn{
     padding: 20px;
     background-color: black;
     border: none;
@@ -16,30 +15,47 @@
     margin-bottom: 15px;
     cursor: pointer;
 }
-
-.modal {
+.modal{
     position: absolute;
     top: 0;
     left: 0;
     z-index: 1;
 }
-
-.your-comp-cont {
+.companies-list-cont{
     display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    border: 1px solid black;
-    padding: 10px;
-    border-radius: 10px;
+    margin-top: 10px;
     width: 50%;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: 1px solid black;
+    flex-direction: column;
+    padding: 10px;
 }
-.your-comp-cont span{
-    margin: 10px 0;
-}
-.your-comp-cont button{
+.companies-list-cont button{
     background-color: black;
     padding: 10px 20px;
-    margin-left: 100px;
+    margin-left: 40px;
+}
+.your-comp-cont{
+    border: 1px solid black;
+    padding: 10px;
+    width: 40%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.your-comp-cont span{
+    margin: 7px 0;
+}
+.your-comp-cont  button{
+    background-color: black;
+    padding: 10px 20px;
+    margin-left: 50px;
+}
+.your-comp-cont  button a{
+    color: white;
+    text-decoration: none;
 }

@@ -25,15 +25,13 @@ function User() {
 
 
     const getRealTimeDetails = (e) => {
-        console.log(e.target.value)
         const q = query(collection(db, "companies"), where("name", "==", e.target.value));
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const companyDetailsList = [];
             querySnapshot.forEach((doc) => {
                 companyDetailsList.push(doc.data());
             });
-            setCompanyDetails(companyDetailsList)
-            console.log("Company Details: ",companyDetails)
+            setCompanyDetails(companyDetailsList)   
         });
     }
 

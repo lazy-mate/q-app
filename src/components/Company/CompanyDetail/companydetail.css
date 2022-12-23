@@ -1,0 +1,50 @@
+.main{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.comp-detail-cont{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.modal-cont{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.modal-body {
+    display: flex;
+    flex-direction: column;
+    margin: 5px 0;
+}
+.modal-body input{
+    font-size: 15px;
+    padding: 10px 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    outline: none;
+    margin: 5px 0;
+}
+.modal-footer{
+    display: flex;
+    margin: 10px 0;
+}
+.modal-footer button{
+    margin: 0 10px;
+    background-color: black;
+    padding: 10px 20px;
+
+}

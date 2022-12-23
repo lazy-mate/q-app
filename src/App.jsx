@@ -5,6 +5,7 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Home from './components/Home';
 import Login from './components/Login';
 import Company from './components/Company';
+import CompanyDetail from './components/Company/CompanyDetail';
 import User from './components/User';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
@@ -44,6 +45,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/company" element={<Company />} />
           <Route path="/user" element={<User />} />
+          <Route path='/company/companydetail' element={<CompanyDetail />} />
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
         :

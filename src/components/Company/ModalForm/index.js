@@ -9,7 +9,7 @@ function AddCompanyModal({ closeModal }) {
     const [companyName, setCompanyName] = useState("")
     const [since, setSince] = useState("")
     const [timings, setTimings] = useState("")
-    const [uploadImage, setUploadImage] = useState(null)    
+    const [uploadImage, setUploadImage] = useState(null)
     let imageUrl = ''
 
     const addComapny = async (e) => {

@@ -1,15 +1,23 @@
 import { useEffect, useState } from "react";
 import "./company.css"
 import ModalForm from "./ModalForm"
-import EditCompanyModal from "./EditForm"
 import { getFirestore, doc, updateDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 function Company() {
     const [openModal, setOpenModal] = useState(false)
-    const [editModal, setEditModal] = useState(false)
     const [yourCompanies, setYourCompanies] = useState([])
+    const [companyId, setCompanyId] = useState("")
 
+const navigate = useNavigate()
+
+useEffect(() => {
+    if(companyId){
+        localStorage.setItem('companyId', JSON.stringify(companyId))
+        navigate('./companydetail')
+    }
+}, [companyId])
 
     useEffect(() => {
         getData();
@@ -29,32 +37,19 @@ function Company() {
         setYourCompanies(yourCompaniesList)
     }
 
-    const editCompany = async (id) => {
-        
-        const db = getFirestore();
-
-        const company = doc(db, "companies", id);
-
-        // Set the "capital" field of the city 'DC'
-        await updateDoc(company, {
-            token: 10
-        });
-        console.log(company)
-    }
 
     return (
         <div className="main">
             <h1>Q-App Company</h1>
-            <button onClick={() => { setOpenModal(true) }} className="home-btn">+</button>
+            <button onClick={() => { setOpenModal(true) }} className="home-btn">Add Your Company +</button>
             <div className="modal">{openModal && <ModalForm closeModal={setOpenModal} />}</div>
             <div className="your-comp-cont">
                 <h3>Your Companies</h3>
                 {
-                    yourCompanies.map(({ name }) => {
-                        return <span>Name: {name} <button onClick={() => {setEditModal(true) }}>Edit</button></span>
+                    yourCompanies.map(({ name, id }) => {
+                        return <span>Name: {name} <button onClick={()=>{setCompanyId(id)}}>View</button></span>
                     })
                 }
-            <div className="modal">{editModal && <EditCompanyModal closeModal={setEditModal} />}</div>
             </div>
         </div>
     );
