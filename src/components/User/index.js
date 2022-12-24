@@ -1,12 +1,13 @@
 import "./user.css"
-import { getFirestore, onSnapshot, query, where, collection, getDocs } from "firebase/firestore";
+import { getFirestore, onSnapshot, query, where, collection, getDocs, increment, doc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { async } from "@firebase/util";
 
 function User() {
 
     const [companies, setCompanies] = useState([])
     const [companyDetails, setCompanyDetails] = useState([])
+    const [compCurrentToken, setCompCurrentToken] = useState(0)
+    const [compTodayToken, setCompTodayToken] = useState(0)
 
     const db = getFirestore();
     const getData = async () => {
@@ -20,7 +21,6 @@ function User() {
 
     useEffect(() => {
         getData();
-        console.log("Companies data === >", companies)
     }, [])
 
 
@@ -29,10 +29,26 @@ function User() {
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const companyDetailsList = [];
             querySnapshot.forEach((doc) => {
-                companyDetailsList.push(doc.data());
+                companyDetailsList.push({ id: doc.id, ...doc.data() });
             });
-            setCompanyDetails(companyDetailsList)   
+            setCompanyDetails(companyDetailsList)
+            setCompTodayToken(companyDetailsList[0].todayToken)
+            setCompCurrentToken(companyDetailsList[0].currentToken)
         });
+    }
+
+    const getToken = async () => {
+
+        if (compCurrentToken < compTodayToken) {
+            const compRef = doc(db, "companies", companyDetails[0].id);
+            await updateDoc(compRef, {
+                currentToken: increment(1)
+            });
+        } else {
+            alert('Token Limit Full')
+        }
+
+
     }
 
     return (
@@ -46,17 +62,20 @@ function User() {
             <div className="details-container">
                 <h4>Company Details</h4>
                 {
-                    companyDetails.map(({ name, from, timing }) => {
-                        return( <div className="details">
+                    companyDetails.map(({ name, from, timing, todayToken, currentToken, estimatedTime }) => {
+                        return (<div className="details">
                             <span>Name: {name}</span>
                             <span>Since: {from}</span>
                             <span>Timing: {timing}</span>
-                            </div> )
+                            <span>Today's Token: {todayToken}</span>
+                            <span>Current Token: {currentToken}</span>
+                            <span>Estimated Time: {estimatedTime}</span>
+                        </div>)
                     })
                 }
 
             </div>
-            <button className="home-btn">Get Token</button>
+            <button className="home-btn" onClick={() => { getToken() }}>Get Token</button>
         </div>
     );
 }
