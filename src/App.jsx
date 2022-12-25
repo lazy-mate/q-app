@@ -8,6 +8,7 @@ import Company from './components/Company';
 import CompanyDetail from './components/Company/CompanyDetail';
 import User from './components/User';
 import Header from './components/Header';
+import UserToken from './components/UserToken';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
           <Route path="/company" element={<Company />} />
           <Route path="/user" element={<User />} />
           <Route path='/company/companydetail' element={<CompanyDetail />} />
+          <Route path='/user-token' element={<UserToken />} />
           <Route path="*" element={<div>Page Not Found</div>} />
         </Routes>
         :
