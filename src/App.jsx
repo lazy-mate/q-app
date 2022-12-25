@@ -7,6 +7,7 @@ import Login from './components/Login';
 import Company from './components/Company';
 import CompanyDetail from './components/Company/CompanyDetail';
 import User from './components/User';
+import Header from './components/Header';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 function App() {
@@ -39,7 +40,8 @@ function App() {
 
 
   return (
-    <div>
+    <div className='app'>
+      <Header />
       {(isLogin) ?
         <Routes>
           <Route path="/" element={<Home />} />

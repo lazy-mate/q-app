@@ -12,6 +12,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
+import Header from './components/Header';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCtZhtdxt1O3QqXL5uwCLof46_wpfy8sK0",

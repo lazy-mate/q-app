@@ -18,6 +18,7 @@ function CompanyDetail({ closeModal }) {
         getCompanyData();
     }, []);
 
+
     const getCompanyData = async () => {
         const db = getFirestore()
 
@@ -60,9 +61,9 @@ function CompanyDetail({ closeModal }) {
                     <div className='modal-cont'>
                         <form onSubmit={updateToken}>
                             <div className='modal-body'>
-                                <input onChange={(e) => { setToken(e.target.value) }} placeholder="Today's Token" />
-                                <input onChange={(e) => { setCurrentToken(e.target.value) }} placeholder="Current Token" />
-                                <input onChange={(e) => { setEstimatedTime(e.target.value) }} placeholder='Estimated Time for each Token' />
+                                <input type='number' onChange={(e) => { setToken(e.target.valueAsNumber) }} placeholder="Today's Token" />
+                                <input type='number' onChange={(e) => { setCurrentToken(e.target.valueAsNumber) }} placeholder="Current Token" />
+                                <input type='number' onChange={(e) => { setEstimatedTime(e.target.valueAsNumber) }} placeholder='Estimated Time for each Token' />
                             </div>
                             <div className='modal-footer'>
                                 <button onClick={() => { closeModal(false) }}>Cancel</button>

@@ -1,20 +1,19 @@
 import "./user.css"
-import { getFirestore, onSnapshot, query, where, collection, getDocs, increment, doc, updateDoc } from "firebase/firestore";
+import { getFirestore, runTransaction, onSnapshot, query, where, collection, addDoc, getDocs, doc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import { useEffect, useState } from "react";
 
 function User() {
 
     const [companies, setCompanies] = useState([])
     const [companyDetails, setCompanyDetails] = useState([])
-    const [compCurrentToken, setCompCurrentToken] = useState(0)
-    const [compTodayToken, setCompTodayToken] = useState(0)
 
     const db = getFirestore();
     const getData = async () => {
         const querySnapshot = await getDocs(collection(db, "companies"));
         const companiesList = []
         querySnapshot.forEach((doc) => {
-            companiesList.push({ ...doc.data() })
+            companiesList.push({ id: doc.id, ...doc.data() })
         });
         setCompanies(companiesList)
     }
@@ -22,6 +21,7 @@ function User() {
     useEffect(() => {
         getData();
     }, [])
+
 
 
     const getRealTimeDetails = (e) => {
@@ -32,28 +32,59 @@ function User() {
                 companyDetailsList.push({ id: doc.id, ...doc.data() });
             });
             setCompanyDetails(companyDetailsList)
-            setCompTodayToken(companyDetailsList[0].todayToken)
-            setCompCurrentToken(companyDetailsList[0].currentToken)
         });
     }
 
     const getToken = async () => {
+        const db = getFirestore()
 
-        if (compCurrentToken < compTodayToken) {
-            const compRef = doc(db, "companies", companyDetails[0].id);
-            await updateDoc(compRef, {
-                currentToken: increment(1)
+
+        // Create a reference to the SF doc.
+        const compRef = doc(db, "companies", companyDetails[0].id);
+
+        try {
+            const newPopulation = await runTransaction(db, async (transaction) => {
+                const comp = await transaction.get(compRef);
+
+                const updatedToken = comp.data().currentToken + 1;
+                const currentToken = comp.data().currentToken
+                const todayToken = comp.data().todayToken
+                if (todayToken > currentToken) {
+                    transaction.update(compRef, { currentToken: updatedToken });
+
+                    const auth = getAuth()
+
+                    const docRef = await addDoc(collection(db, "users", auth.currentUser.uid, "tokens"), {
+                        tokenNumber: updatedToken,
+                        compName: comp.data().name
+                    });
+
+                } else {
+                    return Promise.reject("Sorry! Population is too big");
+                }
             });
-        } else {
-            alert('Token Limit Full')
+
+            console.log("Population increased to ", newPopulation);
+        } catch (e) {
+            // This will be a "population is too big" error.
+            console.error(e);
         }
+
+        // if (compTodayToken > compCurrentToken) {
+        //     const compRef = doc(db, "companies", companyDetails[0].id);
+        //     await updateDoc(compRef, {
+        //         currentToken: increment(1)
+        //     });
+        // } else {
+        //     alert('Token Limit Full')
+        // }
 
 
     }
 
     return (
         <div className="main">
-            <h1>Q-App User</h1>
+            <h2>Select Company</h2>
             <select onChange={(e) => { getRealTimeDetails(e) }}>
                 {companies.map(({ name }) => {
                     return <option value={name}>{name}</option>

@@ -1,5 +1,6 @@
 import "./login.css"
 import { getAuth, signInWithPopup, FacebookAuthProvider } from "firebase/auth";
+import { getFirestore, setDoc, doc } from "firebase/firestore";
 
 function Login() {
 
@@ -16,7 +17,12 @@ function Login() {
                 const credential = FacebookAuthProvider.credentialFromResult(result);
                 const accessToken = credential.accessToken;
 
-                // ...
+                // Add a new document in collection "cities"
+                const db = getFirestore(); 
+                setDoc(doc(db, "users", user.uid), {
+                    name: user.displayName
+                });
+
             })
             .catch((error) => {
 
@@ -30,7 +36,6 @@ function Login() {
     return (
         <div>
             <div className="main">
-                <h1>Q-App</h1>
                 <button onClick={signInWithFacebook}>Login With Facebook</button>
             </div>
         </div>

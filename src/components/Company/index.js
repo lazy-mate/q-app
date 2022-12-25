@@ -40,7 +40,6 @@ useEffect(() => {
 
     return (
         <div className="main">
-            <h1>Q-App Company</h1>
             <button onClick={() => { setOpenModal(true) }} className="home-btn">Add Your Company +</button>
             <div className="modal">{openModal && <ModalForm closeModal={setOpenModal} />}</div>
             <div className="your-comp-cont">
